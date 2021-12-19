@@ -14,13 +14,13 @@ CC=gcc
 CFLAGS=-O0 -m64 -std=c99 -Wall -W -ggdb3
 
 driver: Fraction.o FracTester.o
-	$(CC) $(CFLAGS) -o driver driver.c Fraction.o FracTester.o
+    $(CC) $(CFLAGS) -o driver driver.c Fraction.o FracTester.o
 
 FracTester.o: Fraction.o FracTester.c FracTester.h
-	$(CC) $(CFLAGS) -c FracTester.c
+    $(CC) $(CFLAGS) -c FracTester.c
 
 Fraction.o: Fraction.c Fraction.h
-	$(CC) $(CFLAGS) -c Fraction.c
+    $(CC) $(CFLAGS) -c Fraction.c
 
 clean:
-	rm -f *.o
+    rm -f *.o
