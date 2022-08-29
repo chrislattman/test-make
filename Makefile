@@ -4,14 +4,16 @@ SHELL=/bin/bash
 # Set compilation options:
 #
 # -O0 no optimizations; remove after debugging
-# -m64 target 64-bit architecture
-# -std=c99 use C99 Standard features
-# -Wall show "all" warnings
-# -W show even more warnings (annoyingly informative)
-# -ggdb3 add extra debug info; remove after debugging
+# -m64 targets 64-bit architecture
+# -std=c99 uses C99 Standard features
+# -Wall shows "all" warnings
+# -Wextra show all other warnings
+# -Werror treats all warnings as errors
+# -pedantic checks for conformity to ANSI C
+# -ggdb3 adds extra debug info; remove after debugging
 
 CC=gcc
-CFLAGS=-O0 -m64 -std=c99 -Wall -W -ggdb3
+CFLAGS=-O0 -m64 -std=c99 -Wall -Wextra -Werror -pedantic -ggdb3
 
 driver: Fraction.o FracTester.o
 	$(CC) $(CFLAGS) -o driver driver.c Fraction.o FracTester.o
@@ -23,4 +25,4 @@ Fraction.o: Fraction.c Fraction.h
 	$(CC) $(CFLAGS) -c Fraction.c
 
 clean:
-	rm -f *.o
+	rm -rf *.o driver driver.dSYM
