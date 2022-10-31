@@ -15,7 +15,7 @@ SHELL=/bin/bash
 CC=gcc
 CFLAGS=-O0 -m64 -std=c99 -Wall -Wextra -Werror -pedantic -ggdb3
 
-driver: Fraction.o FracTester.o
+all: Fraction.o FracTester.o
 	$(CC) $(CFLAGS) -o driver driver.c Fraction.o FracTester.o
 
 FracTester.o: Fraction.o FracTester.c FracTester.h
@@ -26,3 +26,5 @@ Fraction.o: Fraction.c Fraction.h
 
 clean:
 	rm -rf *.o driver driver.dSYM
+
+.PHONY: all clean
