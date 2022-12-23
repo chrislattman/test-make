@@ -3,28 +3,51 @@ SHELL=/bin/bash
 
 # Set compilation options:
 #
-# -O0 no optimizations; remove after debugging
+# -O0 no optimizations, for debugging purposes
+# -ggdb3 adds extra debug info
 # -m64 targets 64-bit architecture
 # -std=c99 uses C99 Standard features
 # -Wall shows "all" warnings
 # -Wextra show all other warnings
 # -Werror treats all warnings as errors
 # -pedantic checks for conformity to ANSI C
-# -ggdb3 adds extra debug info; remove after debugging
 
+# macOS gcc is symlinked to clang
+ifeq ($(shell echo `uname`),Darwin)
+CC=gcc-12
+else
 CC=gcc
-CFLAGS=-O0 -m64 -std=c99 -Wall -Wextra -Werror -pedantic -ggdb3
+endif
 
-all: Fraction.o FracTester.o
-	$(CC) $(CFLAGS) -o driver driver.c Fraction.o FracTester.o
+CFLAGS_DEBUG=-O0 -ggdb3
+CFLAGS=-m64 -std=c99 -Wall -Wextra -Werror -pedantic
+CFLAGS_SO=-shared -fpic
 
-FracTester.o: Fraction.o FracTester.c FracTester.h
-	$(CC) $(CFLAGS) -c FracTester.c
+release: fraction.o frac_tester.o
+	$(CC) $(CFLAGS) -o driver driver.c fraction.o frac_tester.o
 
-Fraction.o: Fraction.c Fraction.h
-	$(CC) $(CFLAGS) -c Fraction.c
+debug: fraction.o frac_tester.o
+	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) -o driver driver.c fraction.o frac_tester.o
+
+lib: libfraction.so frac_tester_lib.o
+	$(CC) $(CFLAGS) -o driver driver.c ./libfraction.so frac_tester.o
+
+libdebug: libfraction.so frac_tester_lib.o
+	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) -o driver driver.c ./libfraction.so frac_tester.o
+
+frac_tester.o: fraction.o frac_tester.c frac_tester.h
+	$(CC) $(CFLAGS) -c frac_tester.c
+
+frac_tester_lib.o: libfraction.so frac_tester.c frac_tester.h
+	$(CC) $(CFLAGS) -c frac_tester.c
+
+fraction.o: fraction.c fraction.h
+	$(CC) $(CFLAGS) -c fraction.c
+
+libfraction.so: fraction.c fraction.h
+	$(CC) $(CFLAGS) $(CFLAGS_SO) -o libfraction.so fraction.c
 
 clean:
-	rm -rf *.o driver driver.dSYM
+	rm -rf *.o *.so driver driver.dSYM
 
-.PHONY: all clean
+.PHONY: release debug lib lib_debug clean

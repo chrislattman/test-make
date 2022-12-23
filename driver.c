@@ -1,5 +1,5 @@
-#include "Fraction.h"
-#include "FracTester.h"
+#include "fraction.h"
+#include "frac_tester.h"
 
 int main(void)
 {

@@ -1,4 +1,4 @@
-#include "Fraction.h"
+#include "fraction.h"
 
 Fraction* fraction_init(int numerator, int denominator)
 {
