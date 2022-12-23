@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <assert.h>
 #include "fraction.h"
 #include "frac_tester.h"
 
@@ -6,8 +8,10 @@ int main(void)
     /*
      * Quick test of Fraction implementation
      */
-    Fraction* frac1 = fraction_init(14, 27);
-    Fraction* frac2 = fraction_init(12, 13);
+    Fraction *frac1 = fraction_init(14, 27);
+    assert(frac1 != NULL);
+    Fraction *frac2 = fraction_init(12, 13);
+    assert(frac2 != NULL);
     int f1_num = frac1->numerator;
     int f1_denom = frac1->denominator;
     int f2_num = frac2->numerator;

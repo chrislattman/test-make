@@ -1,9 +1,5 @@
 #pragma once
 
-#include "fraction.h"
-#include <assert.h>
-#include <stdio.h>
-
 void test_fraction_init(void);
 void test_fraction_free(void);
 void test_fraction_add(void);

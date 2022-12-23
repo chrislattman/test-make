@@ -1,8 +1,11 @@
+#include <stdio.h>
+#include <assert.h>
 #include "frac_tester.h"
+#include "fraction.h"
 
 void test_fraction_init(void)
 {
-    Fraction* frac = fraction_init(10, 25);
+    Fraction *frac = fraction_init(10, 25);
     assert(frac != NULL);
     assert(frac->numerator == 10);
     assert(frac->denominator == 25);
@@ -30,7 +33,7 @@ void test_fraction_init(void)
 void test_fraction_free(void)
 {
     fraction_free(NULL);
-    Fraction* frac = fraction_init(9, 23);
+    Fraction *frac = fraction_init(9, 23);
     assert(frac != NULL);
     fraction_free(frac);
     printf("test_fraction_free passed\n");
@@ -39,9 +42,9 @@ void test_fraction_free(void)
 void test_fraction_add(void)
 {
     fraction_add(NULL, NULL);
-    Fraction* frac1 = fraction_init(20, 38);
+    Fraction *frac1 = fraction_init(20, 38);
     assert(frac1 != NULL);
-    Fraction* frac2 = fraction_init(3, 8);
+    Fraction *frac2 = fraction_init(3, 8);
     assert(frac2 != NULL);
     fraction_add(frac1, NULL);
     assert(frac1->numerator == 20);
@@ -69,9 +72,9 @@ void test_fraction_add(void)
 void test_fraction_subtract(void)
 {
     fraction_subtract(NULL, NULL);
-    Fraction* frac1 = fraction_init(20, 38);
+    Fraction *frac1 = fraction_init(20, 38);
     assert(frac1 != NULL);
-    Fraction* frac2 = fraction_init(3, 8);
+    Fraction *frac2 = fraction_init(3, 8);
     assert(frac2 != NULL);
     fraction_subtract(frac1, NULL);
     assert(frac1->numerator == 20);
@@ -90,9 +93,9 @@ void test_fraction_subtract(void)
 void test_fraction_multiply(void)
 {
     fraction_multiply(NULL, NULL);
-    Fraction* frac1 = fraction_init(20, 38);
+    Fraction *frac1 = fraction_init(20, 38);
     assert(frac1 != NULL);
-    Fraction* frac2 = fraction_init(3, 8);
+    Fraction *frac2 = fraction_init(3, 8);
     assert(frac2 != NULL);
     fraction_multiply(frac1, NULL);
     assert(frac1->numerator == 20);
@@ -111,9 +114,9 @@ void test_fraction_multiply(void)
 void test_fraction_divide(void)
 {
     fraction_divide(NULL, NULL);
-    Fraction* frac1 = fraction_init(20, 38);
+    Fraction *frac1 = fraction_init(20, 38);
     assert(frac1 != NULL);
-    Fraction* frac2 = fraction_init(3, 8);
+    Fraction *frac2 = fraction_init(3, 8);
     assert(frac2 != NULL);
     fraction_divide(frac1, NULL);
     assert(frac1->numerator == 20);
@@ -132,7 +135,7 @@ void test_fraction_divide(void)
 void test_fraction_invert(void)
 {
     fraction_invert(NULL);
-    Fraction* frac = fraction_init(9, 23);
+    Fraction *frac = fraction_init(9, 23);
     assert(frac != NULL);
     fraction_invert(frac);
     assert(frac->numerator == 23);
@@ -144,7 +147,7 @@ void test_fraction_invert(void)
 void test_fraction_negate(void)
 {
     fraction_negate(NULL);
-    Fraction* frac = fraction_init(9, 23);
+    Fraction *frac = fraction_init(9, 23);
     assert(frac != NULL);
     fraction_negate(frac);
     assert(frac->numerator == -9);
@@ -156,7 +159,7 @@ void test_fraction_negate(void)
 void test_fraction_reduce(void)
 {
     fraction_reduce(NULL);
-    Fraction* frac = fraction_init(1020, 390);
+    Fraction *frac = fraction_init(1020, 390);
     assert(frac != NULL);
     fraction_reduce(frac);
     assert(frac->numerator == 34);
@@ -186,7 +189,7 @@ void test_fraction_reduce(void)
 void test_fraction_check_negatives(void)
 {
     fraction_check_negatives(NULL);
-    Fraction* frac = fraction_init(25, 90);
+    Fraction *frac = fraction_init(25, 90);
     assert(frac != NULL);
     fraction_check_negatives(frac);
     assert(frac->numerator == 25);

@@ -35,6 +35,12 @@ lib: libfraction.so frac_tester_lib.o
 libdebug: libfraction.so frac_tester_lib.o
 	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) -o driver driver.c ./libfraction.so frac_tester.o
 
+dl: libfraction.so
+	$(CC) $(CFLAGS) -o driver driverdl.c
+
+dldebug: libfraction.so
+	$(CC) $(CFLAGS) $(CFLAGS_DEBUG) -o driver driverdl.c
+
 frac_tester.o: fraction.o frac_tester.c frac_tester.h
 	$(CC) $(CFLAGS) -c frac_tester.c
 
