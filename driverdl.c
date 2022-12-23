@@ -15,7 +15,11 @@ int main(void)
     Fraction *frac1, *frac2;
     int f1_num, f1_denom, f2_num, f2_denom, prod_num, prod_denom;
 
+#ifdef __CYGWIN__
+    handle = dlopen("libfraction.dll", RTLD_NOW);
+#else
     handle = dlopen("libfraction.so", RTLD_NOW);
+#endif
     if (handle == NULL) {
         printf("%s\n", dlerror());
         return 1;

@@ -1,4 +1,8 @@
+.DS_Store
 driver
+driverdl
 driver.dSYM
 *.o
 *.so
+*.exe
+*.dll
