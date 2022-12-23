@@ -56,4 +56,4 @@ libfraction.so: fraction.c fraction.h
 clean:
 	rm -rf *.o *.so driver driver.dSYM
 
-.PHONY: release debug lib lib_debug clean
+.PHONY: release debug lib lib_debug dl dldebug clean
