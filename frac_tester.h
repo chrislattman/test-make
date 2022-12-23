@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Fraction.h"
+#include "fraction.h"
 #include <assert.h>
 #include <stdio.h>
 
