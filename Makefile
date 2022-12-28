@@ -24,6 +24,8 @@ CC=gcc
 endif
 
 # Windows (Cygwin) calls shared libraries DLLs
+# macOS normally uses .dymlib for shared libraries, but
+# we are not using clang, so .so will be used for macOS (and Linux)
 ifneq ($(findstring CYGWIN,$(OS)),)
 LIBNAME=libfraction.dll
 else
