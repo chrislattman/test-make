@@ -6,3 +6,4 @@ driver.dSYM
 *.so
 *.exe
 *.dll
+*.patch
