@@ -1,11 +1,9 @@
 # Specify shell to execute recipes
 SHELL=/bin/bash
 
-# To compile 
-
 # Set compilation options:
 #
-# -O0 no optimizations, for debugging purposes
+# -Og optimizes for debugging purposes
 # -ggdb3 adds extra debug info
 # -m64 targets 64-bit architecture
 # -std=c99 uses C99 Standard features
@@ -18,7 +16,7 @@ OS=$(shell echo `uname`)
 
 # macOS gcc is symlinked to clang
 ifeq ($(OS),Darwin)
-CC=gcc-12
+CC=gcc-13
 else
 CC=gcc
 endif
@@ -38,15 +36,19 @@ CFLAGS_LIB=-shared -fpic
 
 # Debug flags
 ifeq ($(DEBUG),1)
-CFLAGS+=-O0 -ggdb3
+CFLAGS+=-Og -ggdb3
 endif
 
+# Compiles everything in the executable
 normal: fraction.o frac_tester.o
 	$(CC) $(CFLAGS) -o driver driver.c fraction.o frac_tester.o
 
+# Compiles the executable with the shared library
 lib: libfraction frac_tester_lib.o
 	$(CC) $(CFLAGS) -o driver driver.c ./$(LIBNAME) frac_tester.o
 
+# Compiles the executable and the shared library separately
+# The shared library is linked at runtime
 dl: libfraction
 	$(CC) $(CFLAGS) -o driverdl driverdl.c
 
