@@ -17,7 +17,9 @@ int main(void)
 
 #ifdef __CYGWIN__
     handle = dlopen("./libfraction.dll", RTLD_NOW);
-#else
+#elif __APPLE__
+    handle = dlopen("./libfraction.dylib", RTLD_NOW);
+#else // __linux__
     handle = dlopen("./libfraction.so", RTLD_NOW);
 #endif
     if (handle == NULL) {

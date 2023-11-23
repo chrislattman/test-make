@@ -1,11 +1,11 @@
 # Specify shell to execute recipes
 SHELL=/bin/bash
 
-# Set compilation options:
+# Set compilation options (these for for both gcc and clang):
 #
 # -Og optimizes for debugging purposes
 # -ggdb3 adds extra debug info
-# -m64 targets 64-bit architecture
+# Optional: -m64 targets 64-bit architecture (unnecessary nowadays)
 # -std=c99 uses C99 Standard features
 # -Wall shows "all" warnings
 # -Wextra show all other warnings
@@ -14,24 +14,34 @@ SHELL=/bin/bash
 
 OS=$(shell echo `uname`)
 
-# macOS gcc is symlinked to clang
+# macOS gcc is symlinked to Xcode clang
+# There are extra environment variables that need to be set for Homebrew clang
+# to work, see https://stackoverflow.com/a/68183992
 ifeq ($(OS),Darwin)
-CC=gcc-13
+	ifeq ($(CLANG),1)
+	CC=clang-17
+	else
+	CC=gcc-13
+	endif
 else
-CC=gcc
+	ifeq ($(CLANG),1)
+	CC=clang
+	else
+	CC=gcc
+	endif
 endif
 
 # Windows (Cygwin) calls shared libraries DLLs
-# macOS normally uses .dylib for shared libraries, but
-# we are not using clang, so .so will be used for macOS (and Linux)
 ifneq ($(findstring CYGWIN,$(OS)),)
 LIBNAME=libfraction.dll
+else ifneq ($(findstring Darwin,$(OS)),)
+LIBNAME=libfraction.dylib
 else
 LIBNAME=libfraction.so
 endif
 
 # Compilation flags for executables and shared libraries
-CFLAGS=-m64 -std=c99 -Wall -Wextra -Werror -pedantic
+CFLAGS=-std=c99 -Wall -Wextra -Werror -pedantic
 CFLAGS_LIB=-shared -fpic
 
 # Debug flags
@@ -65,9 +75,9 @@ libfraction: fraction.c fraction.h
 	$(CC) $(CFLAGS) $(CFLAGS_LIB) -o $(LIBNAME) fraction.c
 
 clean:
-	rm -rf *.o *.so driver driverdl driver.dSYM *.exe *.dll
+	rm -rf *.o *.so *.dylib driver driverdl driver.dSYM *.exe *.dll
 
 help:
-	@echo "For debug build, run: make DEBUG=1"
+	@echo "For debug build, run: make DEBUG=1. To use clang, run: make CLANG=1."
 
 .PHONY: normal lib dl clean help

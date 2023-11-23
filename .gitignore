@@ -4,6 +4,7 @@ driverdl
 driver.dSYM
 *.o
 *.so
+*.dylib
 *.exe
 *.dll
 *.patch
