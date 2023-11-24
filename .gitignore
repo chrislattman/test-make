@@ -8,3 +8,4 @@ driver.dSYM
 *.exe
 *.dll
 *.patch
+.vscode

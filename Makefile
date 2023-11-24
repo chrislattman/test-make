@@ -36,7 +36,7 @@ ifneq ($(findstring CYGWIN,$(OS)),)
 LIBNAME=libfraction.dll
 else ifneq ($(findstring Darwin,$(OS)),)
 LIBNAME=libfraction.dylib
-else
+else # Linux
 LIBNAME=libfraction.so
 endif
 

@@ -19,7 +19,7 @@ int main(void)
     handle = dlopen("./libfraction.dll", RTLD_NOW);
 #elif __APPLE__
     handle = dlopen("./libfraction.dylib", RTLD_NOW);
-#else // __linux__
+#else // __linux__ (additionally __ANDROID__ for Android)
     handle = dlopen("./libfraction.so", RTLD_NOW);
 #endif
     if (handle == NULL) {
