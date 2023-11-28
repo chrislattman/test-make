@@ -16,6 +16,7 @@ SHELL=/bin/bash
 # -pedantic checks for conformity to ANSI C
 
 OS=$(shell echo `uname`)
+PWD=$(shell echo `pwd`)
 
 # Setting CLANG_GCOV necessarily implies using clang
 # Using CLANG_GCOV since clang by default uses source-based code coverage
@@ -139,8 +140,10 @@ ubsan: frac_tester_ubsan
 # Instruments executable for code coverage
 coverage: frac_tester_cov
 	$(CC) $(CFLAGS) $(COV_FLAGS) -o driver driver.c fraction.o frac_tester.o
+ifeq ($(OS),Darwin)
 ifeq ($(CLANG_GCOV),1)
 	mv driver-driver.gcno driver.gcno
+endif
 endif
 ifneq ($(CLANG),1) # Using gcc
 	mv driver-driver.gcno driver.gcno
@@ -153,17 +156,19 @@ ifneq ($(CLANG_GCOV),1)
 ifeq ($(CLANG),1) # Using clang's source-based code coverage
 	llvm-profdata merge --sparse -o default.profdata default.profraw
 	llvm-cov show -format=html -output-dir=out -instr-profile=default.profdata ./driver
-else
+else # Using gcc
 	mv driver-driver.gcda driver.gcda
 	$(GCOV) driver.c fraction.c frac_tester.c
 	# --gcov-tool is needed for macOS
 	lcov --capture --directory . --output-file coverage.info --gcov-tool $(GCOV)
 	genhtml coverage.info --output-directory out
 endif
-else
+else # Using clang with gcov
+ifeq ($(OS),Darwin)
 	mv driver-driver.gcda driver.gcda
+endif
 	$(GCOV) driver.c fraction.c frac_tester.c
-	lcov --capture --directory . --output-file coverage.info
+	lcov --capture --directory . --output-file coverage.info --gcov-tool $(PWD)/llvm-gcov.sh
 	genhtml coverage.info --output-directory out
 endif
 
