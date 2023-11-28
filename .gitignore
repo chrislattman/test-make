@@ -9,3 +9,10 @@ driver.dSYM
 *.dll
 *.patch
 .vscode
+*.gcno
+*.gcda
+*.gcov
+coverage.info
+out
+default.profraw
+default.profdata
