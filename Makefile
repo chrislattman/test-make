@@ -4,7 +4,10 @@ SHELL=/bin/bash
 # Set compilation options (these for for both gcc and clang):
 #
 # -Og optimizes for debugging purposes
-# -ggdb3 adds extra debug info
+# -g3 adds extra debug info
+# -ggdb generates debug info for gdb
+# -glldb generates debug info for lldb
+# -ggdb3 is short for -ggdb -g3
 # Optional: -m64 targets 64-bit architecture (unnecessary nowadays)
 # -std=c99 uses C99 Standard features
 # -Wall shows "all" warnings
