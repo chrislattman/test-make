@@ -96,6 +96,7 @@ normal: frac_tester.o
 	$(CC) $(CFLAGS) -o driver driver.c fraction.o frac_tester.o
 
 # Sanitizers should be run separately (therefore not stored as an environment variable)
+# An alternative to sanitizers is valgrind/helgrind
 
 # AddressSanitizer
 asan: frac_tester_asan
