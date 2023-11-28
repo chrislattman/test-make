@@ -12,7 +12,7 @@ driver.dSYM
 *.gcno
 *.gcda
 *.gcov
-coverage.info
+*.info
 out
-default.profraw
-default.profdata
+*.profraw
+*.profdata
