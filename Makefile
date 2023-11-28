@@ -17,27 +17,38 @@ SHELL=/bin/bash
 
 OS=$(shell echo `uname`)
 
+# Setting CLANG_GCOV necessarily implies using clang
+# Using CLANG_GCOV since clang by default uses source-based code coverage
+ifeq ($(CLANG_GCOV),1)
+CLANG=1
+endif
+
 # macOS gcc is symlinked to Xcode clang
 # There are extra environment variables that need to be set for Homebrew clang
 # to work, see https://stackoverflow.com/a/68183992
 ifeq ($(OS),Darwin)
-	ifeq ($(CLANG),1)
-	CC=clang-17
-	else
-	CC=gcc-13
-	endif
+ifeq ($(CLANG),1)
+CC=clang-17
 else
-	ifeq ($(CLANG),1)
-	CC=clang
-	else
-	CC=gcc
-	endif
+CC=gcc-13
+endif
+else
+ifeq ($(CLANG),1)
+CC=clang
+else
+CC=gcc
+endif
 endif
 
-ifeq ($(OS),Darwin)
-	GCOV=gcov-13
+# Same clang gcov location on all platforms
+ifeq ($(CLANG_GCOV),1)
+GCOV=llvm-cov gcov
 else
-	GCOV=gcov
+ifeq ($(OS),Darwin)
+GCOV=gcov-13
+else
+GCOV=gcov
+endif
 endif
 
 # Windows (Cygwin) calls shared libraries DLLs
@@ -55,11 +66,11 @@ CFLAGS_LIB=-shared -fpic
 
 # Debug flags
 ifeq ($(DEBUG),1)
-	ifeq ($(CLANG),1)
-	CFLAGS+=-Og -glldb -g3
-	else
-	CFLAGS+=-Og -ggdb -g3
-	endif
+ifeq ($(CLANG),1)
+CFLAGS+=-Og -glldb -g3
+else
+CFLAGS+=-Og -ggdb -g3
+endif
 endif
 
 # ASan flags
@@ -88,8 +99,12 @@ UBSAN_FLAGS=-fsanitize=undefined -fsanitize=float-divide-by-zero -fsanitize=floa
 endif
 
 # Coverage flags
-ifeq ($(CLANG),1)
+ifneq ($(CLANG_GCOV),1)
+ifeq ($(CLANG),1) # Using clang's source-based code coverage
 COV_FLAGS=-fprofile-instr-generate -fcoverage-mapping
+else
+COV_FLAGS=--coverage
+endif
 else
 COV_FLAGS=--coverage
 endif
@@ -99,7 +114,7 @@ normal: frac_tester.o
 	$(CC) $(CFLAGS) -o driver driver.c fraction.o frac_tester.o
 
 # Sanitizers should be run separately (therefore not stored as an environment variable)
-# An alternative to sanitizers is valgrind/helgrind
+# An alternative to these sanitizers is valgrind/helgrind
 
 # AddressSanitizer
 asan: frac_tester_asan
@@ -124,16 +139,27 @@ ubsan: frac_tester_ubsan
 # Instruments executable for code coverage
 coverage: frac_tester_cov
 	$(CC) $(CFLAGS) $(COV_FLAGS) -o driver driver.c fraction.o frac_tester.o
-ifneq ($(CLANG),1)
+ifeq ($(CLANG_GCOV),1)
+	mv driver-driver.gcno driver.gcno
+endif
+ifneq ($(CLANG),1) # Using gcc
 	mv driver-driver.gcno driver.gcno
 endif
 
-# Generates HTML report after running instrumented executable (has issues on macOS)
+# Generates HTML report after running instrumented executable
 # An alternative to gcov->lcov->genhtml is gcovr
 report: driver.c fraction.c frac_tester.c
-ifeq ($(CLANG),1)
+ifneq ($(CLANG_GCOV),1)
+ifeq ($(CLANG),1) # Using clang's source-based code coverage
 	llvm-profdata merge --sparse -o default.profdata default.profraw
 	llvm-cov show -format=html -output-dir=out -instr-profile=default.profdata ./driver
+else
+	mv driver-driver.gcda driver.gcda
+	$(GCOV) driver.c fraction.c frac_tester.c
+	# --gcov-tool is needed for macOS
+	lcov --capture --directory . --output-file coverage.info --gcov-tool $(GCOV)
+	genhtml coverage.info --output-directory out
+endif
 else
 	mv driver-driver.gcda driver.gcda
 	$(GCOV) driver.c fraction.c frac_tester.c
