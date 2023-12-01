@@ -16,6 +16,7 @@ int main(void)
     int f1_num, f1_denom, f2_num, f2_denom, prod_num, prod_denom;
 
 #ifdef __CYGWIN__
+    // The Win32 API equivalent of dlopen is LoadLibraryA
     handle = dlopen("./libfraction.dll", RTLD_NOW);
 #elif __APPLE__
     handle = dlopen("./libfraction.dylib", RTLD_NOW);
@@ -27,6 +28,7 @@ int main(void)
         return 1;
     }
 
+    // The Win32 API equivalent of dlsym is GetProcAddress
     *(void **)(&fraction_init) = dlsym(handle, "fraction_init");
     if (fraction_init == NULL) {
         printf("%s\n", dlerror());
@@ -61,6 +63,7 @@ int main(void)
     fraction_free(frac1);
     fraction_free(frac2);
 
+    // The Win32 API equivalent of dlclose is FreeLibrary
     dlclose(handle);
     return 0;
 }
