@@ -1,3 +1,9 @@
+/**
+ * @file fraction.h
+ *
+ * @brief Contains the definition and methods of a Fraction.
+ */
+
 #pragma once
 
 /*
@@ -10,7 +16,8 @@
  * @brief The Fraction struct used for this implementation.
  */
 typedef struct fraction {
-    int numerator, denominator;
+    int numerator; /**< Numerator of Fraction */
+    int denominator; /**< Denominator of Fraction */
 } Fraction;
 
 /**

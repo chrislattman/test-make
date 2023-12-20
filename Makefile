@@ -114,6 +114,10 @@ endif
 normal: frac_tester.o
 	$(CC) $(CFLAGS) -o driver driver.c fraction.o frac_tester.o
 
+# Generates HTML documentation
+docs:
+	doxygen Doxyfile
+
 # Sanitizers should be run separately (therefore not stored as an environment variable)
 # An alternative to these sanitizers is valgrind/helgrind
 
@@ -230,7 +234,7 @@ fraction_cov: fraction.c fraction.h
 	$(CC) $(CFLAGS) $(COV_FLAGS) -c fraction.c
 
 clean:
-	rm -rf *.o *.so *.dylib driver driverdl driver.dSYM *.exe *.dll *.gcno *.gcda *.gcov *.info out *.prof*
+	rm -rf *.o *.so *.dylib driver driverdl driver.dSYM *.exe *.dll *.gcno *.gcda *.gcov *.info out *.prof* public
 
 help:
 	@echo "For debug build, run: make DEBUG=1. To use clang, run: make CLANG=1."

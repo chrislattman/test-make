@@ -16,3 +16,4 @@ driver.dSYM
 out
 *.profraw
 *.profdata
+public
