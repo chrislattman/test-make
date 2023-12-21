@@ -1,16 +1,14 @@
 /**
  * @file fraction.h
  *
- * @brief Contains the definition and methods of a Fraction.
+ * @brief This is the implementation of a Fraction.
+ *
+ * Negative values in the denominator are corrected by every fraction operation,
+ * but fractions are not expected to be reduced unless an explicit call to
+ * fraction_reduce() is made.
  */
 
 #pragma once
-
-/*
- * The implementation of a Fraction. Negative values in the denominator are
- * corrected by every fraction operation, but fractions are not expected to be
- * reduced unless an explicit call to fraction_reduce() is made.
- */
 
 /**
  * @brief The Fraction struct used for this implementation.

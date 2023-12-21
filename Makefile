@@ -116,6 +116,7 @@ normal: frac_tester.o
 
 # Generates HTML documentation
 docs:
+	mkdir public
 	doxygen Doxyfile
 
 # Sanitizers should be run separately (therefore not stored as an environment variable)
