@@ -114,6 +114,10 @@ endif
 normal: frac_tester.o
 	$(CC) $(CFLAGS) -o driver driver.c fraction.o frac_tester.o
 
+# Lints all C source and header files
+lint:
+	cppcheck --std=c99 *.c *.h
+
 # Generates HTML documentation
 docs:
 	mkdir public
