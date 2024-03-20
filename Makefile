@@ -168,7 +168,7 @@ ifeq ($(CLANG),1) # Using clang's source-based code coverage
 else # Using gcc
 	mv driver-driver.gcda driver.gcda
 	$(GCOV) driver.c fraction.c frac_tester.c
-	# --gcov-tool is needed for macOS
+	# --gcov-tool $(GCOV) is needed for macOS
 	lcov --capture --directory . --output-file coverage.info --gcov-tool $(GCOV)
 	genhtml coverage.info --output-directory out
 endif
