@@ -160,7 +160,7 @@ endif
 
 # Generates HTML report after running instrumented executable
 # An alternative to gcov->lcov->genhtml is gcovr
-report: driver.c fraction.c frac_tester.c
+report:
 ifneq ($(CLANG_GCOV),1)
 ifeq ($(CLANG),1) # Using clang's source-based code coverage
 	llvm-profdata merge --sparse -o default.profdata default.profraw
@@ -185,7 +185,7 @@ endif
 lib: frac_tester_lib.o
 	$(CC) $(CFLAGS) -o driver driver.c ./$(LIBNAME) frac_tester.o
 
-frac_tester_lib.o: libfraction frac_tester.c frac_tester.h
+frac_tester_lib.o: libfraction
 	$(CC) $(CFLAGS) -c frac_tester.c
 
 # Compiles the executable and the shared library separately
@@ -193,49 +193,49 @@ frac_tester_lib.o: libfraction frac_tester.c frac_tester.h
 dl: libfraction
 	$(CC) $(CFLAGS) -o driverdl driverdl.c
 
-frac_tester.o: fraction.o frac_tester.c frac_tester.h
+frac_tester.o: fraction.o
 	$(CC) $(CFLAGS) -c frac_tester.c
 
-libfraction: fraction.c fraction.h
+libfraction:
 	$(CC) $(CFLAGS) $(CFLAGS_LIB) -o $(LIBNAME) fraction.c
 
-fraction.o: fraction.c fraction.h
+fraction.o:
 	$(CC) $(CFLAGS) -c fraction.c
 
-frac_tester_asan: fraction_asan frac_tester.c frac_tester.h
+frac_tester_asan: fraction_asan
 	$(CC) $(CFLAGS) $(ASAN_FLAGS) -c frac_tester.c
 
-frac_tester_lsan: fraction_lsan frac_tester.c frac_tester.h
+frac_tester_lsan: fraction_lsan
 	$(CC) $(CFLAGS) $(LSAN_FLAGS) -c frac_tester.c
 
-frac_tester_msan: fraction_msan frac_tester.c frac_tester.h
+frac_tester_msan: fraction_msan
 	$(CC) $(CFLAGS) $(MSAN_FLAGS) -c frac_tester.c
 
-frac_tester_tsan: fraction_tsan frac_tester.c frac_tester.h
+frac_tester_tsan: fraction_tsan
 	$(CC) $(CFLAGS) $(TSAN_FLAGS) -c frac_tester.c
 
-frac_tester_ubsan: fraction_ubsan frac_tester.c frac_tester.h
+frac_tester_ubsan: fraction_ubsan
 	$(CC) $(CFLAGS) $(UBSAN_FLAGS) -c frac_tester.c
 
-frac_tester_cov: fraction_cov frac_tester.c frac_tester.h
+frac_tester_cov: fraction_cov
 	$(CC) $(CFLAGS) $(COV_FLAGS) -c frac_tester.c
 
-fraction_asan: fraction.c fraction.h
+fraction_asan:
 	$(CC) $(CFLAGS) $(ASAN_FLAGS) -c fraction.c
 
-fraction_lsan: fraction.c fraction.h
+fraction_lsan:
 	$(CC) $(CFLAGS) $(LSAN_FLAGS) -c fraction.c
 
-fraction_msan: fraction.c fraction.h
+fraction_msan:
 	$(CC) $(CFLAGS) $(MSAN_FLAGS) -c fraction.c
 
-fraction_tsan: fraction.c fraction.h
+fraction_tsan:
 	$(CC) $(CFLAGS) $(TSAN_FLAGS) -c fraction.c
 
-fraction_ubsan: fraction.c fraction.h
+fraction_ubsan:
 	$(CC) $(CFLAGS) $(UBSAN_FLAGS) -c fraction.c
 
-fraction_cov: fraction.c fraction.h
+fraction_cov:
 	$(CC) $(CFLAGS) $(COV_FLAGS) -c fraction.c
 
 clean:
