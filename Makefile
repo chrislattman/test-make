@@ -117,6 +117,7 @@ normal: frac_tester.o
 # Lints all C source and header files
 lint:
 	cppcheck --std=c99 *.c *.h
+	flawfinder ./
 
 # Generates HTML documentation
 docs:
