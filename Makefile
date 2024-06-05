@@ -29,9 +29,9 @@ endif
 # to work, see https://stackoverflow.com/a/68183992
 ifeq ($(OS),Darwin)
 ifeq ($(CLANG),1)
-CC=clang-17
+CC=clang-18
 else
-CC=gcc-13
+CC=gcc-14
 endif
 else
 ifeq ($(CLANG),1)
@@ -46,7 +46,7 @@ ifeq ($(CLANG_GCOV),1)
 GCOV=llvm-cov gcov
 else
 ifeq ($(OS),Darwin)
-GCOV=gcov-13
+GCOV=gcov-14
 else
 GCOV=gcov
 endif
