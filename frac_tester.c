@@ -27,7 +27,7 @@ void test_fraction_init(void)
     fraction_free(frac);
     frac = fraction_init(10, 0);
     assert(frac == NULL);
-    printf("test_fraction_init passed\n");
+    puts("test_fraction_init passed");
 }
 
 void test_fraction_free(void)
@@ -36,7 +36,7 @@ void test_fraction_free(void)
     Fraction *frac = fraction_init(9, 23);
     assert(frac != NULL);
     fraction_free(frac);
-    printf("test_fraction_free passed\n");
+    puts("test_fraction_free passed");
 }
 
 void test_fraction_add(void)
@@ -66,7 +66,7 @@ void test_fraction_add(void)
     assert(frac1->denominator == 27);
     fraction_free(frac1);
     fraction_free(frac2);
-    printf("test_fraction_add passed\n");
+    puts("test_fraction_add passed");
 }
 
 void test_fraction_subtract(void)
@@ -87,7 +87,7 @@ void test_fraction_subtract(void)
     assert(frac1->denominator == 304);
     fraction_free(frac1);
     fraction_free(frac2);
-    printf("test_fraction_subtract passed\n");
+    puts("test_fraction_subtract passed");
 }
 
 void test_fraction_multiply(void)
@@ -108,7 +108,7 @@ void test_fraction_multiply(void)
     assert(frac1->denominator == 304);
     fraction_free(frac1);
     fraction_free(frac2);
-    printf("test_fraction_multiply passed\n");
+    puts("test_fraction_multiply passed");
 }
 
 void test_fraction_divide(void)
@@ -129,7 +129,7 @@ void test_fraction_divide(void)
     assert(frac1->denominator == 114);
     fraction_free(frac1);
     fraction_free(frac2);
-    printf("test_fraction_divide passed\n");
+    puts("test_fraction_divide passed");
 }
 
 void test_fraction_invert(void)
@@ -141,7 +141,7 @@ void test_fraction_invert(void)
     assert(frac->numerator == 23);
     assert(frac->denominator == 9);
     fraction_free(frac);
-    printf("test_fraction_invert passed\n");
+    puts("test_fraction_invert passed");
 }
 
 void test_fraction_negate(void)
@@ -153,7 +153,7 @@ void test_fraction_negate(void)
     assert(frac->numerator == -9);
     assert(frac->denominator == 23);
     fraction_free(frac);
-    printf("test_fraction_negate passed\n");
+    puts("test_fraction_negate passed");
 }
 
 void test_fraction_reduce(void)
@@ -183,7 +183,7 @@ void test_fraction_reduce(void)
     assert(frac->numerator == 16);
     assert(frac->denominator == 7);
     fraction_free(frac);
-    printf("test_fraction_reduce passed\n");
+    puts("test_fraction_reduce passed");
 }
 
 void test_fraction_check_negatives(void)
@@ -207,5 +207,5 @@ void test_fraction_check_negatives(void)
     assert(frac->numerator == 25);
     assert(frac->denominator == 90);
     fraction_free(frac);
-    printf("test_fraction_check_negatives passed\n");
+    puts("test_fraction_check_negatives passed");
 }
